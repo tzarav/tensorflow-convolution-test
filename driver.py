@@ -1,4 +1,5 @@
 import os
+import sys
 os.environ['TF_CPP_LOG_LEVEL'] = '2'
 import tensorflow as tf
 from tensorflow import keras
@@ -31,5 +32,12 @@ model.compile(
     metrics=['accuracy']
 )
 
-model.fit(x_train, y_train, batch_size=64, epochs=10, verbose=2)
+if len(sys.argv) > 1:
+    print("using epochs input")
+    epochs = int(sys.argv[1])
+    model.fit(x_train, y_train, batch_size=64, epochs=epochs, verbose=2)
+else:
+    print("default epochs to 10")
+    model.fit(x_train, y_train, batch_size=64, epochs=10, verbose=2)
+
 model.evaluate(x_test, y_test, batch_size=64, verbose=2)
